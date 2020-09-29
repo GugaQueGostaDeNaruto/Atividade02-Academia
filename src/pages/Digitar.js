@@ -1,13 +1,25 @@
 import React, {useState} from 'react';
-import {View,Text,StyleSheet,TextInput,TouchableOpacity} from 'react-native';
+import {View,Text,StyleSheet,TextInput,TouchableOpacity,Button} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import Arrow from 'react-native-vector-icons/FontAwesome'
 Arrow.loadFont();
 
 export function Digitar({navigation}) {
   
-    const [peso,setPeso] = useState();
-    const [altura,setAltura] = useState();
+  const [peso, setPeso] = useState(0.00);
+  const [altura, setAltura] = useState(0.00);
+  const [imc, setImc] = useState(0.00);
+
+  function calcularIMC (peso, altura) {
+    var resultado = peso / (altura*altura)
+    setImc(resultado)
+    console.log("valor IMC",resultado)
+
+     if(resultado != 0){
+      navigation.navigate('Calcular',{resultado})
+    } 
+
+  }
 
     return (
         
@@ -36,8 +48,6 @@ export function Digitar({navigation}) {
           keyboardType = {'numeric'}
           onChangeText = {(val)=> setAltura(val)}
           ></TextInput>
-          <Text> Peso: {peso} {'\n'} Altura: {altura} {'\n'} </Text>
-        
           <TouchableOpacity style = {styles.caixa} 
               onPress = {() => navigation.navigate('Selecionar')}>
               <Arrow name = "arrow-circle-left" size = {30} color = "#CD6600"></Arrow>
@@ -45,7 +55,7 @@ export function Digitar({navigation}) {
           </TouchableOpacity>
 
           <TouchableOpacity style = {styles.caixa} 
-              onPress = {() => navigation.navigate('Calcular')}>
+              onPress = {()=> calcularIMC(peso,altura)}>
               <Arrow name = "arrow-circle-right" size = {30} color = "#551A8B"></Arrow>
               <Text style = {{fontSize:20,fontWeight:'bold'}}>Próximo</Text>
           </TouchableOpacity>

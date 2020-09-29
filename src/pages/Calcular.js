@@ -1,10 +1,25 @@
 import React, {useState} from 'react';
-import {View,Text,StyleSheet,TouchableOpacity,} from 'react-native';
+import {View,Text,StyleSheet,TouchableOpacity,Button,} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome'
 Icon.loadFont();
 
-export function Calcular ({navigation}) { 
+export function Calcular (props) {
+  const {resultado} = props.route.params;
+  function alerta(resultado){
+    if (resultado < 18.5) {
+      alert("Baixo Peso = " + resultado.toFixed(2))
+    }
+    else if (resultado >= 18.5 && resultado < 24.9) {
+      alert("Peso saudável = " + resultado.toFixed(2))
+    }
+    else if (resultado >= 25 && resultado < 29.9) {
+      alert("Sobrepeso = " + resultado.toFixed(2))
+    }
+    else if (resultado >= 30) {
+      alert("Obesidade = " + resultado.toFixed(2))
+    }
+  }
 
     return (
         <View style = {{flex:1,alignItems:'center',justifyContent:'center'}}>
@@ -19,44 +34,36 @@ export function Calcular ({navigation}) {
               }}
           />
           <Text style = {{fontSize:30,color:'#191970',fontWeight:'bold'}}>Resultado do IMC{'\n'}</Text>
-          <Text style = {styles.teste}>Resultado IMC</Text>
-          <View style = {{ alignItems: 'center' , flexDirection: 'row'}}>
+            <Text style>IMC: {resultado.toFixed(2)}{'\n'}</Text>
+          <View style = {{ alignItems:'center',flexDirection:'row'}}>
             <Text style = {styles.tabela1}>IMC (kg/m2)</Text>
             <Text style = {styles.tabela1}>Classificação</Text>
           </View>
 
           <View style = {{alignItems:'center',flexDirection:'row'}}>
-            <Text style = {styles.tabela2}>-18,5</Text>
+            <Text style = {styles.tabela2}>-18.5</Text>
             <Text style = {styles.tabela2}>Baixo Peso</Text>
           </View>
 
           <View style = {{alignItems:'center',flexDirection:'row'}}>
-            <Text style = {styles.tabela3}>18,5-24,9</Text>
+            <Text style = {styles.tabela3}>18.5-24.9</Text>
             <Text style = {styles.tabela3}>Peso Saudável</Text>
           </View>
 
           <View style = {{alignItems:'center',flexDirection:'row'}}>
-            <Text style = {styles.tabela2}>25,0-29,9</Text>
+            <Text style = {styles.tabela2}>25.0-29.9</Text>
             <Text style = {styles.tabela2}>Sobrepeso</Text>
           </View>
 
           <View style = {{alignItems:'center',flexDirection:'row'}}>
-            <Text style = {styles.tabela3}>+30,0</Text>
+            <Text style = {styles.tabela3}>+30.0</Text>
             <Text style = {styles.tabela3}>Obesidade</Text>
           </View>
-
-          <TouchableOpacity style = {styles.caixa} 
-              onPress = {() => navigation.navigate('Digitar')}>
-              <Icon name = "arrow-circle-left"size = {30}color = "#CD6600"></Icon>
-              <Text style = {{fontSize:20,fontWeight:'bold'}}>Voltar</Text>
-          </TouchableOpacity> 
-
-          <TouchableOpacity style = {styles.caixa} 
-              onPress = {() => navigation.navigate('Selecionar')}>
-              <Icon name = "home" size = {30} color = "#FFD700"></Icon>
-              <Text style = {{fontSize:20,fontWeight:'bold'}}>Início</Text>
-          </TouchableOpacity>
-          <Text style = {{fontSize:12,fontWeight:'bold',fontStyle:'italic'}}>Criado por: Luiz Gustavo</Text>
+          <Button
+        title = "Resultado"
+        onPress = {() => alerta(resultado)}
+      />
+          <Text style = {{fontSize:12,fontWeight:'bold',fontStyle:'italic'}}>{'\n'}{'\n'}{'\n'}{'\n'}Criado por: Luiz Gustavo</Text>
         </View>
     );
 }
